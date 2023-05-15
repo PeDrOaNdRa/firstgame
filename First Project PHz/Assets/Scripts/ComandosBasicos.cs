@@ -6,16 +6,17 @@ public class ComandosBasicos : MonoBehaviour
 {
     public int velocidade; //define a velocidade de movimentação
     public int alturaPulo; //define a força do pulo
-    private Rigidbody2D rbPlayer; //cria variável para recever os componentes de física
+    private Rigidbody2D rbPlayer; //cria variável para recever os componentes de física    
+    private Animator anim;
 
     public bool sensor; //sensor para verificar se está colidindo com o chão
     public Transform posicaoSensor; //Posição onde o sensor será posicionado
-    public LayerMask layerChao; //Camada de interação
+    public LayerMask layerChao; //Camada de interação*
 
-    // Start is called before the first frame update
     void Start()
     {
         rbPlayer = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -24,6 +25,8 @@ public class ComandosBasicos : MonoBehaviour
         float movimentoX = Input.GetAxisRaw("Horizontal");
 
         rbPlayer.velocity = new Vector2(movimentoX * velocidade, rbPlayer.velocity.y);
+
+        anim.SetInteger("walk", (int)movimentoX);
 
         if(Input.GetButtonDown("Jump") && sensor == true)
         {
